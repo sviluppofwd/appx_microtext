@@ -1,12 +1,3 @@
-import 'dart:io';
-import 'package:appx_microtex/webViewPage.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:provider/provider.dart';
-import 'package:webview_flutter/webview_flutter.dart';
-
-import 'customColors.dart';
-
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -20,16 +11,30 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  bool _isLoading = true;
+  String _title = '';
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Microtex',
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Microtex'),
+          title: Text(_title),
         ),
         body: WebView(
           initialUrl: 'https://www.be-mood.it/app-giacenze.php',
+          onPageStarted: (url) {
+            setState(() {
+              _isLoading = true;
+            });
+          },
+          onPageFinished: (url) {
+            setState(() {
+              _isLoading = false;
+              _title = "Microtex";
+            });
+          },
         ),
       ),
     );
